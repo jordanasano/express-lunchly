@@ -25,6 +25,7 @@ router.get("/add/", async function (req, res, next) {
 /** Handle adding a new customer. */
 
 router.post("/add/", async function (req, res, next) {
+  console.log(req)
   const { firstName, lastName, phone, notes } = req.body;
   const customer = new Customer({ firstName, lastName, phone, notes });
   await customer.save();
