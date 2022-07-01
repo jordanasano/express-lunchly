@@ -77,7 +77,12 @@ class Customer {
   /** gets top ten customers with highest amount of reservations */
   static async topTenCustomers() {
     const result = await db.query(
-      `SELECT customers.id, first_name AS "firstName", last_name AS "lastName", phone,customers.notes,
+      `SELECT
+         customers.id,
+         first_name AS "firstName",
+         last_name AS "lastName",
+         phone,
+         customers.notes,
        count(reservations.id)
        FROM customers
        JOIN reservations on customers.id = customer_id

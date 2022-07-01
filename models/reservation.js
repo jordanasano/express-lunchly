@@ -43,6 +43,7 @@ class Reservation {
   async save() {
     if (this.id === undefined) {
       const result = await db.query(
+           //TODO: column names should be snake case
             `INSERT INTO reservations (customerId, numGuests, startAt, notes)
              VALUES ($1, $2, $3, $4)
              RETURNING id`,
