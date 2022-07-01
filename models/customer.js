@@ -56,10 +56,32 @@ class Customer {
     return new Customer(customer);
   }
 
+
+  static async searchByName(firstName,lastName) {
+    const result = await db.query(
+      `SELECT id,
+        first_name AS "firstName",
+        last_name  AS "lastName",
+        phone,
+        notes
+      FROM customers
+      WHERE firstName = $1,
+        lastName = $2`,
+        [firstName,lastName]
+
+    );
+    return result.rows.map(c => new Customer(c));
+  }
+
+
+
+
   /** Get full name of this customer */
   fullName() {
     return this.firstName + ' ' + this.lastName;
   }
+
+
 
   /** get all reservations for this customer. */
 
