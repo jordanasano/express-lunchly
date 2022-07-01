@@ -42,6 +42,14 @@ router.get("/search/", async function (req, res, next) {
   return res.render("customer_list.html", { customers });
 });
 
+
+/** calls topTenCustomers() then displays customers on customers_list.html */
+router.get("/top-ten/", async function (req, res){
+  const topTen = await Customer.topTenCustomers();
+  console.log(topTen)
+  return res.render("customer_list.html", {customers:topTen})
+})
+
 /** Show a customer, given their ID. */
 
 router.get("/:id/", async function (req, res, next) {
