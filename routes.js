@@ -32,9 +32,20 @@ router.post("/add/", async function (req, res, next) {
   return res.redirect(`/${customer.id}/`);
 });
 
+/** Shows all customers that match the search term. */
+router.get("/search/", async function (req, res, next) {
+  console.log('/search');
+  console.log(req.query.search);
+  const search = req.query.search;
+  const customers = await Customer.searchByName(search);
+
+  return res.render("customer_list.html", { customers });
+});
+
 /** Show a customer, given their ID. */
 
 router.get("/:id/", async function (req, res, next) {
+  console.log('/:id');
   const customer = await Customer.get(req.params.id);
 
   const reservations = await customer.getReservations();
@@ -42,15 +53,6 @@ router.get("/:id/", async function (req, res, next) {
   return res.render("customer_detail.html", { customer, reservations });
 });
 
-router.get("/search/", async function (req, res, next) {
-  console.log(req)
-  const firstName = req.query.firstName;
-  const lastName = req.query.lastName;
-  const customers = await Customer.searchByName(firstName,lastName);
-
-
-  return res.render("customer_list.html", { customers });
-});
 
 /** Show form to edit a customer. */
 

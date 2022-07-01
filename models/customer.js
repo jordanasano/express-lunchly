@@ -56,8 +56,8 @@ class Customer {
     return new Customer(customer);
   }
 
-
-  static async searchByName(firstName,lastName) {
+/** Gets customers that match the search term */
+  static async searchByName(search) {
     const result = await db.query(
       `SELECT id,
         first_name AS "firstName",
@@ -65,16 +65,13 @@ class Customer {
         phone,
         notes
       FROM customers
-      WHERE firstName = $1,
-        lastName = $2`,
-        [firstName,lastName]
-
+      WHERE first_name ILIKE $1 || '%'
+        OR last_name ILIKE $1 || '%'
+        OR ($1 ILIKE first_name || '%' AND $1 ILIKE '%' || last_name)`,
+        [search]
     );
     return result.rows.map(c => new Customer(c));
   }
-
-
-
 
   /** Get full name of this customer */
   fullName() {
